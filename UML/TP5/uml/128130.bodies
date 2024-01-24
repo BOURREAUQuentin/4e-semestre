@@ -1,0 +1,5 @@
+class Nombre
+!!!129026.java!!!	Nombre(in valeur : double)
+    this.valeur = valeur;
+!!!129154.java!!!	evaluer() : double
+    return this.valeur;

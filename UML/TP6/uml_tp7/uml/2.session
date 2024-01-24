@@ -1,0 +1,20 @@
+window_sizes 1920 1031 255 1659 883 96
+cleanlooks_style
+diagrams
+  active  classdiagram_ref 128130 // diagramme1
+    1431 774 100 A4 0 0
+end
+show_stereotypes
+selected class_ref 128898 // MyChrono
+open
+  classview_ref 128130 // vue1
+  class_ref 128130 // Arret
+  class_ref 128258 // IEtat
+  class_ref 128386 // Automate
+  class_ref 128514 // IEvenement
+  class_ref 128642 // Chrono
+  class_ref 128770 // EnMarche
+  class_ref 128898 // MyChrono
+  deploymentview_ref 128130 // src
+end
+end

@@ -1,0 +1,7 @@
+class EnMarche
+!!!130306.java!!!	go(inout a : Automate) : void
+      a.setEtatCourant(new EnMarche());
+      a.getControle().lancerChrono();
+!!!130434.java!!!	stop(inout a : Automate) : void
+      a.setEtatCourant(new Arret());
+      a.getControle().stopperChrono();

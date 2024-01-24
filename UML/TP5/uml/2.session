@@ -1,0 +1,19 @@
+window_sizes 1920 1031 277 1637 883 96
+cleanlooks_style
+diagrams
+  active  classdiagram_ref 128002 // diagramme1
+    1573 855 100 A4 0 0
+end
+show_stereotypes
+selected classview_ref 128002 // vue1
+open
+  class_ref 128002 // Operation
+  class_ref 128130 // Nombre
+  class_ref 128258 // Element
+  class_ref 128386 // Main
+  class_ref 128514 // Somme
+  class_ref 128642 // Multiplication
+  class_ref 128770 // OperationBinaire
+  deploymentview_ref 128258 // vue1
+end
+end

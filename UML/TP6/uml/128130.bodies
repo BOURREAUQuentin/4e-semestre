@@ -1,0 +1,6 @@
+class Etat1
+!!!128642.java!!!	evenement1(inout a : Automate) : void
+        a.setEtatCourant(new Etat2());
+        a.getControle().action1();
+!!!128770.java!!!	evenement2(inout a : Automate) : void
+        // pas d'evenement 2 dans état 1

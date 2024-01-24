@@ -1,0 +1,11 @@
+class Chrono
+!!!129666.java!!!	Chrono(inout controleur : Automate)
+    this.controleur = controleur;
+!!!129794.java!!!	lancerChrono() : void
+    System.out.println("Je lance le chrono");
+!!!129922.java!!!	stopperChrono() : void
+    System.out.println("J'arrete le chrono");
+!!!130050.java!!!	go() : void
+    this.controleur.go();
+!!!130178.java!!!	stop() : void
+    this.controleur.stop();

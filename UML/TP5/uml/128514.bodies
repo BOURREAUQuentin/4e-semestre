@@ -1,0 +1,11 @@
+class Somme
+!!!130818.java!!!	Somme()
+        this.lesElements = new ArrayList<Element>();
+!!!130946.java!!!	addElement(inout element : Element) : void
+        this.lesElements.add(element);
+!!!131074.java!!!	evaluer() : double
+        double valeurSomme = 0;
+        for (Element element : this.lesElements){
+            valeurSomme = valeurSomme + element.evaluer();
+        }
+        return valeurSomme;

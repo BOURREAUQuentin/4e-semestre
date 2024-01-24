@@ -1,0 +1,10 @@
+class Soustraction
+!!!129794.java!!!	Soustraction()
+        this.lefElement = null;
+        this.rightElement = null;
+!!!129922.java!!!	addLeft(inout element : Element) : void
+        this.lefElement = element;
+!!!130050.java!!!	addRight(inout element : Element) : void
+        this.rightElement = element;
+!!!130178.java!!!	evaluer() : double
+        return this.lefElement.evaluer() - this.rightElement.evaluer();

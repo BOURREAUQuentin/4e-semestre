@@ -1,0 +1,18 @@
+window_sizes 1920 1031 255 1659 883 96
+cleanlooks_style
+diagrams
+  active  classdiagram_ref 128002 // diagramme1
+    960 852 120 A4 0 0
+end
+show_stereotypes
+selected classview_ref 128002 // vue1
+open
+  class_ref 128002 // Automate
+  class_ref 128130 // Arret
+  class_ref 128258 // EnMarche
+  class_ref 128386 // IEvenement
+  class_ref 128514 // IEtat
+  class_ref 128642 // Chrono
+  class_ref 128770 // MyX
+end
+end

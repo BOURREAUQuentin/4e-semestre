@@ -1,0 +1,6 @@
+class Arret
+!!!128386.java!!!	go(inout a : Automate) : void
+        a.setEtatCourant(new EnMarche());
+        a.getControle().lancerChrono();
+!!!128514.java!!!	stop(inout a : Automate) : void
+      // pas d'evenement dans stop lorsque le chrono est arrêté

@@ -1,0 +1,10 @@
+class Division
+!!!130306.java!!!	Division()
+        this.lefElement = null;
+        this.rightElement = null;
+!!!130434.java!!!	addLeft(inout element : Element) : void
+        this.lefElement = element;
+!!!130562.java!!!	addRight(inout element : Element) : void
+        this.rightElement = element;
+!!!130690.java!!!	evaluer() : double
+        return this.lefElement.evaluer() / this.rightElement.evaluer();

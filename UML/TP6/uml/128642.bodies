@@ -1,0 +1,11 @@
+class X
+!!!130050.java!!!	X(inout controleur : Automate)
+    this.controleur = controleur;
+!!!129410.java!!!	action1() : void
+    System.out.println("Je passe dans l’état 2");
+!!!129538.java!!!	action2() : void
+    System.out.println("Je passe dans l’état 1");
+!!!129666.java!!!	evenement1() : void
+    this.controleur.evenement1();
+!!!129794.java!!!	evenement2() : void
+    this.controleur.evenement2();

@@ -1,0 +1,46 @@
+import java.util.Scanner;
+
+class MyChrono {
+  public static void main(String[] args)
+  {
+    IEtat etatInitial = new Arret();
+    Automate controleur = new Automate(etatInitial);
+    Chrono controle = new Chrono(controleur);
+    controleur.setControle(controle);
+
+    int rep=-1;
+    String s;
+    Scanner scanner = new Scanner(System.in);
+    while(rep!=0){
+        // affichage du menu
+        System.out.print("\033[H\033[2J");  
+        System.out.flush();
+        System.out.println("========================\n     APPLI MyChrono       \n========================\n");
+        System.out.println("1. go");
+        System.out.println("2. stop");
+        System.out.println("0. Quitter");
+
+        // saisie du choix utilisateur
+        s = scanner.nextLine();
+        rep = Integer.parseInt(s);
+
+        // interprétation du choix
+        switch(rep){
+              case 1: {
+                  System.out.print("1\n");
+                  controleur.go();
+                  break;
+              }
+              case 2: {
+                  System.out.print("2\n");
+                  controleur.stop();
+                  break;
+              }
+        }
+        System.out.println("\n(ENTRER pour continuer)");
+        s = scanner.nextLine();
+    }
+    scanner.close();
+  }
+
+}

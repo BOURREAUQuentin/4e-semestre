@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='home.css')}}">
+{% endblock %}
+{% block content %}
+<div class="left-div">
+    <div>
+        <h1 class="book-title">{{book.title}}</h1>
+        <h2>Les auteurs du livre</h2>
+        <div class="authors">
+            {% for author in book.authors %}
+                {% if current_user.is_authenticated %}
+                    <a class="centered-link" href="{{ url_for('edit_author', id=author.id) }} "><h3>{{ author.name }}</h3></a>
+                {% else %}
+                    <p class="centered-link">{{ author.name }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <a class="centered-link" href="{{ book.url }} "><h3>Acheter maintenant</h3></a>
+        <h2>Prix : {{book.price}} euros</h2>
+        <div class="container-image">
+            <img class="centered-image" src="{{ url_for('static', filename='images/'+book.img) }}" alt="{{book.title}}" title="{{book.title}}">
+        </div>
+    </div>
+    <hr> <!-- Trait de séparation horizontal --> 
+    <h2>Note du livre : {{ "%.1f" % average_rating }}</h2> <!-- arrondit à une décimale -->
+    <hr> <!-- Trait de séparation horizontal --> 
+    <h2>Commentaires</h2>
+    <div class="sample-container">
+        <div class="sample">
+            {% for comment in book.comments %}
+                <div class="comment">
+                    <p>{{ comment.text }}</p>
+                    <p class="username-comment">Par: {{ comment.user.username }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="right-div text-center">
+    {% if current_user.is_authenticated %}
+        <form method="POST" action="{{ url_for('add_note', book_id=book.id) }}" class="form-rating">
+            <h2>Notez ce livre :</h2>
+            <select id="score" name="score">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            <input type="submit" value="Soumettre">
+        </form>
+        <hr> <!-- Trait de séparation horizontal --> 
+        <a class="centered-link" href="{{ url_for('edit_book', id=book.id) }} "><h3>Modifier informations livre</h3></a>
+        <form method="POST" action="{{ url_for('delete_book', id=book.id) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" class="btn btn-danger">Supprimer ce livre</button>
+        </form>
+        <form method="POST" action="{{ url_for('detail', id=book.id) }}" class="comment-form">
+            {{ comment_form.csrf_token }}
+            <div class="form-group">
+                {{ comment_form.text.label }}<br>
+                {{ comment_form.text(size=20) }}<br>
+                {% for error in comment_form.text.errors %}
+                    <span style="color: red;">{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <button type="submit">Ajouter un commentaire</button>
+        </form>
+    {% else %}
+        <p class="username-comment">Connectez-vous pour noter ce livre, modifier les informations de l'auteur et du livre, supprimer ce livre et laisser un commentaire.</p>
+    {% endif %}
+</div>
+{% endblock %}

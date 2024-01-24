@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='home.css')}}">
+{% endblock %}
+{% block content %}
+<h1>{{title}}</h1>
+<div class="sample-container">
+    <div class="sample">
+        {% if books %}
+            {% for x in books %}
+                <a href="{{ url_for('detail', id=x.id) }}"><img src="{{ url_for('static', filename='images/'+x.img) }}"
+                alt="{{x.title}}" title="{{x.title}}"></a>
+            {% endfor %}
+        {% else %}
+            <h1>Aucun livre à afficher</h1>
+        {% endif %}
+    </div>
+</div>
+{% if current_user.is_authenticated %}
+<a class="centered-link" href="{{ url_for('add_one_author') }}"><h3>Ajouter un auteur</h3></a>
+{% endif %}
+{% endblock %}

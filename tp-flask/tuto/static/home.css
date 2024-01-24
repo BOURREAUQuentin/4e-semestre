@@ -1,0 +1,141 @@
+h1 {
+    color: red;
+    margin-bottom: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+main{
+    margin-top: 2em;
+}
+
+footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.container-image {
+    display: flex;
+    justify-content: center; /* Centre l'image horizontalement */
+}
+
+main > .container {
+    padding: 60px 15px 0;
+}
+
+img {
+    margin: 10px;
+}
+
+.centered-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sample-container, .authors {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-bottom: 50px;
+}
+
+.sample{
+    text-align: center;
+    display: inline-flex;
+    margin-bottom: 20px;
+}
+
+.authors > *{
+    margin-right: 20px;
+}
+
+.sample img {
+    margin-right: 10px; /* Ajoutez un espacement entre les images si nécessaire */
+}
+
+.sample .comment{
+    margin-right: 20px;
+}
+
+a, .btn-signin{
+    text-decoration: none; /* Supprime le soulignement par défaut */
+    color: #007bff; /* Couleur du texte pour les liens */
+    transition: color 0.3s ease; /* Animation de transition pour le changement de couleur */
+}
+
+/* Style lorsque le lien est survolé */
+a:hover, .btn-signin:hover {
+    color: #013872; /* Nouvelle couleur de texte au survol */
+}
+
+/* Style lorsque le lien est cliqué */
+a:active, .btn-signin:active {
+    color: #004080; /* Nouvelle couleur de texte lors du clic */
+}
+
+.nav-link {
+    text-decoration: none; /* Supprime le soulignement par défaut */
+    color: #ffffff; /* Couleur du texte pour les liens */
+    transition: color 0.3s ease; /* Animation de transition pour le changement de couleur */
+}
+
+/* Style lorsque le lien est survolé */
+.nav-link:hover {
+    color: #828487; /* Nouvelle couleur de texte au survol */
+}
+
+/* Style lorsque le lien est cliqué */
+.nav-link:active {
+    color: #2e2e2e; /* Nouvelle couleur de texte lors du clic */
+}
+
+.log{
+    color: #ffffff;
+    margin-left: 50px;
+}
+
+.log i {
+    margin-right: 5px; /* Ajoute une marge à droite de l'icône pour l'espace */
+}
+
+.left-div {
+    float: left;
+    width: 50%;
+}
+
+.right-div {
+    float: right;
+    width: 50%;
+    padding-top: 5px;
+}
+
+.form-rating{
+    display: flex;
+    justify-content: center;
+}
+
+.form-rating > *{
+    margin-right: 10px;
+}
+
+.username-comment{
+    color: #007bff;
+}
+
+/* Centre le formulaire d'ajout de commentaire horizontalement et verticalement */
+.comment-form {
+    text-align: center; /* Centre le contenu horizontalement */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px; /* Ajoute un espace en haut du formulaire */
+}
+
+.book-title {
+    word-wrap: break-word;
+}

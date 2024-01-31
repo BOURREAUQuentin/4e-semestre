@@ -11,7 +11,7 @@ def loaddb():
     questionnaire_2 = Questionnaire(2, "Questionnaire dur")
     question_capitale_france = Question(1, "Quelle est la capitale de la France ?", "Géographie", 1)
     question_capitale_madrid = Question(2, "Quelle est la capitale de l'Espagne ?", "Géographie", 1)
-    question_tracteur = Question(3, "Est-ce qu'il détruire tout avec les tracteurs ?", "Politique", 2)
+    question_tracteur = Question(3, "Est-ce qu'il faut détruire tout avec les tracteurs ?", "Politique", 2)
     question_attal = Question(4, "Est-ce que Attal est gay ?", "Politique", 2)
     db.session.add(questionnaire_1)
     db.session.add(questionnaire_2)

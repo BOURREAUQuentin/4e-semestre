@@ -1,2 +1,2 @@
-FLASK_APP = todo
+FLASK_APP = ex8
 FLASK_DEBUG = 1

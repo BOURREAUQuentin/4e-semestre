@@ -27,6 +27,11 @@ def get_le_questionnaire(id_questionnaire):
 def get_les_questions_questionnaire(id_questionnaire):
     return Question.query.filter(Question.questionnaire_id == id_questionnaire)
 
+def add_questionnaire(id_questionnaire, nom_questionnaire):
+    nouveau_questionnaire = Questionnaire(id=id_questionnaire, name=nom_questionnaire)
+    db.session.add(nouveau_questionnaire)
+    db.session.commit()
+
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120))

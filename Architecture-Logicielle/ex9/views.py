@@ -12,12 +12,12 @@ def make_public_questionnaire(questionnaire):
             new_questionnaire[field] = questionnaire_json[field]
     return new_questionnaire
 
-@app.route("/ex8/api/v2.0/questionnaires", methods = ["GET"])
+@app.route("/ex9/api/v2.0/questionnaires", methods = ["GET"])
 def get_questionnaires():
     questionnaires = get_les_questionnaires()
     return jsonify(questionnaires = [make_public_questionnaire(questionnaire) for questionnaire in questionnaires])
 
-@app.route("/ex8/api/v2.0/questionnaires/<int:questionnaire_id>", methods = ["GET"])
+@app.route("/ex9/api/v2.0/questionnaires/<int:questionnaire_id>", methods = ["GET"])
 def get_questionnaire(questionnaire_id):
     questionnaire_trouve = get_le_questionnaire(questionnaire_id)
     if questionnaire_trouve is not None:
@@ -35,11 +35,22 @@ def not_found(error):
 def not_found(error):
     return make_response(jsonify({"error": "Bad request"}), 400)
 
-@app.route("/ex8/api/v2.0/questionnaires", methods=["POST"])
+@app.route("/ex9/api/v2.0/questionnaires", methods=["POST"])
 def create_questionnaire():
     questionnaires = get_les_questionnaires()
     if not request.json or not 'name' in request.json:
         abort(404)
-    # a revoir ca marche pas
-    add_questionnaire(questionnaires[-1].id + 1, request.json["name"])
-    return jsonify({"questionnaire": make_public_questionnaire(get_les_questions_questionnaire(questionnaires[-1].id + 1))}), 201
+    add_questionnaire(request.json["name"])
+    return jsonify({"questionnaire": make_public_questionnaire(get_le_questionnaire(questionnaires[-1].id + 1))}), 201
+
+@app.route("/ex9/api/v2.0/questionnaires/<int:questionnaire_id>", methods=["PUT"])
+def update_questionnaire(questionnaire_id):
+    questionnaire = get_le_questionnaire(questionnaire_id)
+    if questionnaire is None:
+        abort(404)
+    if not request.json:
+        abort(400)
+    if "name" in request.json and type(request.json["name"]) != str:
+        abort(400)
+    update_questionnaire(questionnaire_id, request.json.get('name', questionnaire.name))
+    return jsonify({'questionnaire': make_public_questionnaire(questionnaire)})

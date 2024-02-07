@@ -1,0 +1,98 @@
+<!-- <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Attributes / </title>
+</head>
+<body user-id="1">
+    <h1 id="username"></h1>
+    <p id="access"></p>
+    <p id="change">Un paragraphe qui change de couleur au click</p>
+    <script>
+        let users = [
+            {
+                id: 1,
+                username: 'username1',
+                access: ['api', 'bo'],
+            },
+            {
+                id: 2,
+                username: 'username1',
+                access: ['api', 'bo'],
+            }
+        ];
+        let user_id = document.body.getAttribute("user-id");
+        let user = users.find((user) => user.id == user_id);
+        console.log(user);
+        let p = document.createElement('p');
+        p.className = 'text-content';
+        p.innertHTML = 'Hello';
+        let p2 = document.createElement('p');
+        p2.className = 'text-content';
+        p2.innertHTML = 'Bye';
+        document.body.insertAdjacentHTML('beforebegin', p.innertHTML);
+        document.body.insertAdjacentHTML('afterend', p2.innertHTML);
+        let p3 = document.querySelector('#change');
+        p3.addEventListener('click', function() {
+            if (this.style.color == "blue"){
+                this.style.color='orange';
+            }
+            else{
+                this.style.color='blue';   
+            }
+        });
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM events</title>
+</head>
+<body>
+    <ul>
+        <li class="user-select" data-user-id="1">User 1</li>
+        <li class="user-select" data-user-id="2">User 2</li>
+    </ul>
+    <h1 id="username"></h1>
+    <p id="access"></p>
+    <script>
+        let users = [
+            {
+                id: 1,
+                username: 'username1',
+                access: ['api', 'bo'],
+            },
+            {
+                id: 2,
+                username: 'username2',
+                access: ['api', 'fo'],
+            }
+        ];
+        let user_id = document.body.getAttribute("user-id");
+        let user = users.find((user) => user.id == user_id);
+        console.log(user);
+        let li = document.querySelector('#1');
+        li.addEventListener('click', function() {
+            if (this.style.color == "blue"){
+                this.style.color='black';
+            }
+            else{
+                this.style.color='blue';   
+            }
+        });
+        let li2 = document.querySelector('#2');
+        li2.addEventListener('click', function() {
+            if (this.style.color == "blue"){
+                this.style.color='black';
+            }
+            else{
+                this.style.color='blue';   
+            }
+        });
+    </script>
+</body>
+</html>

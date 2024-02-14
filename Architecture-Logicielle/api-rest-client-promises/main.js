@@ -102,3 +102,43 @@ function saveNewTask(task) {
         console.error("Une erreur est survenue lors de la création de la nouvelle tâche : ", error);
     });
 }
+
+function displayTaskDetails(){
+    divCurrentTask.innerHTML = "";
+    const titreSpan = document.createElement("span");
+    const inputTitre = document.createElement("input");
+    titreSpan.textContent = "Titre";
+    inputTitre.type = "text";
+
+    const descriptionSpan = document.createElement("span");
+    const inputDescription = document.createElement("input");
+    descriptionSpan.textContent = "Titre";
+    inputDescription.type = "text";
+
+    const DoneSpan = document.createElement("span");
+    const inputDone = document.createElement("input");
+    DoneSpan.textContent = "Titre";
+    inputDone.type = "checkbox";
+    // TODO
+}
+
+// function formTask(isnew){
+//     $("#currenttask").empty();
+//     $("#currenttask")
+//         .append($('<span>Titre<input type="text" id="titre"><br></span>'))
+//         .append($('<span>Description<input type="text" id="descr"><br></span>'))
+//         .append($('<span>Done<input type="checkbox" id="done"><br></span>'))
+//         .append($('<span><input type="hidden" id="turi"><br></span>'))
+//         .append(isnew?$('<span><input type="button" value="Save Task"><br></span>').on("click", saveNewTask)
+//                      :$('<span><input type="button" value="Modify Task"><br></span>').on("click", saveModifiedTask)
+//             );
+//     }
+
+// function fillFormTask(t){
+//     $("#currenttask #titre").val(t.title);
+//     $("#currenttask #descr").val(t.description);
+//      t.uri=(t.uri == undefined)?"http://localhost:5000/todo/api/v1.0/tasks/"+t.id:t.uri;
+//      $("#currenttask #turi").val(t.uri);
+//     t.done?$("#currenttask #done").prop('checked', true):
+//     $("#currenttask #done").prop('checked', false);
+// }

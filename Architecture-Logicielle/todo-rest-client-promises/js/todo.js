@@ -6,7 +6,7 @@ $(function() {
       console.log(JSON.stringify(tasks));
       $('#taches').empty();
       $('#taches').append($('<ul>'));
-      for(task of tasks){
+      for(task of tasks["tasks"]){
           console.log(task);
           $('#taches ul')
                 .append($('<li>')
@@ -23,7 +23,7 @@ $(function() {
 
     function refreshTaskList(){
         $("#currenttask").empty();
-        requete = "http://localhost:3000/tasks";
+        requete = "http://localhost:5000/todo/api/v1.0/tasks";
         fetch(requete)
         .then( response => {
                   if (response.ok) return response.json();
@@ -71,7 +71,7 @@ $(function() {
     function fillFormTask(t){
         $("#currenttask #titre").val(t.title);
         $("#currenttask #descr").val(t.description);
-         t.uri=(t.uri == undefined)?"http://localhost:3000/tasks/"+t.id:t.uri;
+         t.uri=(t.uri == undefined)?"http://localhost:5000/todo/api/v1.0/tasks/"+t.id:t.uri;
          $("#currenttask #turi").val(t.uri);
         t.done?$("#currenttask #done").prop('checked', true):
         $("#currenttask #done").prop('checked', false);
@@ -84,7 +84,7 @@ $(function() {
             $("#currenttask #done").is(':checked')
             );
         console.log(JSON.stringify(task));
-        fetch("http://localhost:3000/tasks/",{
+        fetch("http://localhost:5000/todo/api/v1.0/tasks",{
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'

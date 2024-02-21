@@ -240,11 +240,11 @@ function afficherTaches(tasks) {
 function toggleAddForm(divAddTache) {
     const form = divAddTache.querySelector('form');
     if (form) {
-        // Si le formulaire est déjà affiché, le supprimer
-        form.remove();
+        // Si le formulaire est déjà affiché, le cacher
+        form.style.display = form.style.display === "none" ? "block" : "none";
     } else {
         // Sinon créer et afficher le formulaire dans la div "add-tache"
-        const newForm = createAddForm();
+        const newForm = createAddForm(divAddTache);
         divAddTache.appendChild(newForm);
     }
 }
@@ -263,7 +263,7 @@ function majAffichageTaches() {
 }
 
 // Création du formulaire d'ajout de tâche
-function createAddForm() {
+function createAddForm(divAddTache) {
     const form = document.createElement("form");
 
     // Titre
@@ -302,6 +302,8 @@ function createAddForm() {
         // Suppression du formulaire après soumission
         form.remove();
     });
+
+    console.log("Parent element:", divAddTache); // Ajout pour déboguer
 
     return form;
 }

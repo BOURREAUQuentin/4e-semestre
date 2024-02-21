@@ -86,8 +86,35 @@ class Task {
     }
 
     // Méthode pour basculer l'état de la tâche (réalisée ou non)
-    toggleDone() {
+    toggleDone(event) {
         console.log("Checkbox changée pour la tâche:", this);
+        fetch(this.uri, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: this.title,
+                description: this.description,
+                done: !this.done // Inverse l'état done actuel
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log("État de la tâche mis à jour avec succès.");
+                return response.json();
+            }
+            else {
+                throw new Error("Problème ajax: " + response.status);
+            }
+        })
+        .then(data => {
+            // Mise à jour de l'affichage après avoir modifié l'état de la tâche
+            majAffichageTaches();
+        })
+        .catch(error => {
+            console.error("Une erreur est survenue lors de la mise à jour de l'état de la tâche: ", error);
+        });
     }
 }
 
@@ -105,7 +132,8 @@ function afficherTaches(tasks) {
 
         if (task.done) {
             divTachesRealisees.appendChild(taskElement);
-        } else {
+        }
+        else {
             divTachesAFaire.appendChild(taskElement);
         }
     }

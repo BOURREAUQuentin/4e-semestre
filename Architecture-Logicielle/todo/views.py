@@ -55,7 +55,7 @@ def update_task(task_id):
     if "description" in request.json and type(request.json["description"]) is not str:
         abort(400)
     if "done" in request.json and type(request.json["done"]) is not bool:
-        abort(400)
+        abort(404)
     task[0]["title"] = request.json.get('title', task[0]['title'])
     task[0]['description'] = request.json.get('description', task[0]['description'])
     task[0]['done'] = request.json.get('done', task[0]['done'])

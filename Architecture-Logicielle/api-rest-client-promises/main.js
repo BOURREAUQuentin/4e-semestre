@@ -6,139 +6,122 @@ class Task {
         this.uri = uri;
         console.log(this.uri);
     }
+
+    // Méthode pour créer l'élément HTML représentant la tâche
+    createTaskElement() {
+        const divTache = document.createElement("div");
+        const numeroTache = document.createElement("h4");
+        numeroTache.textContent = "Tache";
+        divTache.appendChild(numeroTache);
+
+        const h5Titre = document.createElement("h5");
+        h5Titre.textContent = this.title;
+        divTache.appendChild(h5Titre);
+
+        const pDescription = document.createElement("p");
+        pDescription.style.display = "none"; // Masque par défaut
+        pDescription.textContent = this.description;
+        divTache.appendChild(pDescription);
+
+        const boutonVoir = this.createButton("Voir", () => this.voirTache(pDescription));
+        const boutonModifier = this.createButton("Modifier", this.modifierTache.bind(this));
+        const boutonSupprimer = this.createButton("Supprimer", this.supprimerTache.bind(this));
+        const checkboxRealisee = this.createCheckbox("Réalisée", this.toggleDone.bind(this));
+
+        divTache.appendChild(boutonVoir);
+        divTache.appendChild(boutonModifier);
+        divTache.appendChild(boutonSupprimer);
+        divTache.appendChild(checkboxRealisee);
+
+        return divTache;
+    }
+
+    // Méthode pour créer un bouton avec un texte et un gestionnaire d'événements
+    createButton(text, onClickHandler) {
+        const bouton = document.createElement("button");
+        bouton.textContent = text;
+        bouton.addEventListener("click", onClickHandler);
+        return bouton;
+    }
+
+    // Méthode pour créer une checkbox avec un label et un gestionnaire d'événements
+    createCheckbox(label, onChangeHandler) {
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = this.done;
+        checkbox.addEventListener("change", onChangeHandler);
+        return checkbox;
+    }
+
+    // Méthode pour voir la tache
+    voirTache(pDescription) {
+        fetch(this.uri)
+            .then(response => {
+                if (response.ok) return response.json();
+                else throw new Error("Problème ajax: " + response.status);
+            })
+            .then(data => {
+                console.log("Données de la tâche:", data);
+                // Afficher ou cacher la description en fonction de son état actuel
+                if (pDescription.style.display === "none") {
+                    pDescription.style.display = "block";
+                }
+                else {
+                    pDescription.style.display = "none";
+                }
+            })
+            .catch(error => {
+                console.error("Une erreur est survenue lors de la récupération de la tâche: ", error);
+            });
+    }
+
+    // Méthode pour modifier la tâche
+    modifierTache() {
+        console.log("Modifier la tâche:", this);
+    }
+
+    // Méthode pour supprimer la tâche
+    supprimerTache() {
+        console.log("Supprimer la tâche:", this);
+    }
+
+    // Méthode pour basculer l'état de la tâche (réalisée ou non)
+    toggleDone() {
+        console.log("Checkbox changée pour la tâche:", this);
+    }
 }
 
-// Récupération des boutons de la page
-const buttonGET = document.getElementById("buttonGET");
-const addButton = document.getElementById("add");
-const addNewTaskButton = document.getElementById("buttonNewTask");
-const divAddTask = document.getElementById("addtask");
-const inputTitle = document.getElementById("title_input");
-const inputDescription = document.getElementById("description_input");
+// Fonction pour afficher les tâches récupérées dans la liste des tâches
+function afficherTaches(tasks) {
+    const divTachesAFaire = document.getElementById('taches-a-faire');
+    const divTachesRealisees = document.getElementById("taches-realisees");
+    divTachesAFaire.innerHTML = ''; // Vide le contenu de la div des taches a faire
+    divTachesRealisees.innerHTML = ''; // Vide le contenu de la div des taches réalisées
 
-buttonGET.addEventListener("click", refreshTaskList);
-addButton.addEventListener("click", displayNewTaskForm);
-addNewTaskButton.addEventListener("click", () => {
-    if (inputTitle.value != "" && inputDescription.value != ""){
-        const newTask = new Task(inputTitle.value, inputDescription.value, false, "");
-        saveNewTask(newTask);
-        displayNewTaskForm();
+    for (let i = 0; i < tasks["tasks"].length; i++) {
+        let taskData = tasks["tasks"][i];
+        let task = new Task(taskData.title, taskData.description, taskData.done, taskData.uri);
+        const taskElement = task.createTaskElement();
+
+        if (task.done) {
+            divTachesRealisees.appendChild(taskElement);
+        } else {
+            divTachesAFaire.appendChild(taskElement);
+        }
     }
-});
+}
 
-// Fonction pour récupérer les tâches
-function refreshTaskList() {
-    const divCurrentTask = document.getElementById("currenttask");
-    divCurrentTask.innerHTML = ''; // Vide le contenu de divCurrentTask
-
+function majAffichageTaches() {
     const requete = "http://localhost:5000/todo/api/v1.0/tasks";
     fetch(requete)
         .then(response => {
             if (response.ok) return response.json();
-            else throw new Error('Problème ajax: ' + response.status);
+            else throw new Error("Problème ajax: " + response.status);
         })
-        .then(remplirTaches)
+        .then(afficherTaches)
         .catch(error => {
-            console.error("Une erreur est survenue lors de la récupération des tâches:", error);
+            console.error("Une erreur est survenue lors de la récupération des tâches: ", error);
         });
 }
 
-// Fonction pour remplir les tâches récupérées dans la liste des tâches
-function remplirTaches(tasks) {
-    const divTasks = document.getElementById("taches");
-    divTasks.innerHTML = ''; // Vide le contenu de divTasks
-
-    const ulTasks = document.createElement("ul");
-    divTasks.appendChild(ulTasks);
-
-    for (let task of tasks["tasks"]) {
-        const liTask = document.createElement("li");
-        liTask.textContent = task.title;
-
-        // Ajouter un événement de clic sur chaque tâche pour afficher les détails de la tâche
-        liTask.addEventListener("click", () => {
-            displayTaskDetails(task);
-        });
-
-        ulTasks.appendChild(liTask);
-    }
-}
-
-// Fonction pour afficher/cacher le formulaire de création d'une nouvelle tâche
-function displayNewTaskForm() {
-    if (inputTitle.type == "hidden"){
-        inputTitle.type = "text";
-        inputDescription.type = "text";
-        addNewTaskButton.style.display = "block";
-    }
-    else{ // on veut cacher le formulaire
-        inputTitle.type = "hidden";
-        inputTitle.value = "";
-        inputDescription.type = "hidden";
-        inputDescription.value = "";
-        addNewTaskButton.style.display = "none";
-    }
-}
-
-// Fonction pour enregistrer une nouvelle tâche sur le serveur
-function saveNewTask(task) {
-    fetch("http://localhost:5000/todo/api/v1.0/tasks", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(task)
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log("La nouvelle tâche a été créée");
-            // Actualise la liste des tâches après avoir créé une nouvelle tâche
-            refreshTaskList();
-        } else {
-            throw new Error("Problème ajax : " + response.status);
-        }
-    })
-    .catch(error => {
-        console.error("Une erreur est survenue lors de la création de la nouvelle tâche : ", error);
-    });
-}
-
-function displayTaskDetails(){
-    divCurrentTask.innerHTML = "";
-    const titreSpan = document.createElement("span");
-    const inputTitre = document.createElement("input");
-    titreSpan.textContent = "Titre";
-    inputTitre.type = "text";
-
-    const descriptionSpan = document.createElement("span");
-    const inputDescription = document.createElement("input");
-    descriptionSpan.textContent = "Titre";
-    inputDescription.type = "text";
-
-    const DoneSpan = document.createElement("span");
-    const inputDone = document.createElement("input");
-    DoneSpan.textContent = "Titre";
-    inputDone.type = "checkbox";
-    // TODO
-}
-
-// function formTask(isnew){
-//     $("#currenttask").empty();
-//     $("#currenttask")
-//         .append($('<span>Titre<input type="text" id="titre"><br></span>'))
-//         .append($('<span>Description<input type="text" id="descr"><br></span>'))
-//         .append($('<span>Done<input type="checkbox" id="done"><br></span>'))
-//         .append($('<span><input type="hidden" id="turi"><br></span>'))
-//         .append(isnew?$('<span><input type="button" value="Save Task"><br></span>').on("click", saveNewTask)
-//                      :$('<span><input type="button" value="Modify Task"><br></span>').on("click", saveModifiedTask)
-//             );
-//     }
-
-// function fillFormTask(t){
-//     $("#currenttask #titre").val(t.title);
-//     $("#currenttask #descr").val(t.description);
-//      t.uri=(t.uri == undefined)?"http://localhost:5000/todo/api/v1.0/tasks/"+t.id:t.uri;
-//      $("#currenttask #turi").val(t.uri);
-//     t.done?$("#currenttask #done").prop('checked', true):
-//     $("#currenttask #done").prop('checked', false);
-// }
+majAffichageTaches();

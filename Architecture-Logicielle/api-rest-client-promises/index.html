@@ -1,37 +1,27 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8"/>
-    <title>Vos tâches</title>
-  </head>
-  <body>
-    <header>
-      <h1>Choses à faire</h1>
-    </header>
-    <div id='main'>
-      <nav id="nav1">
-        <h2>Todo</h2>
-        <button id="buttonGET">Récupérer les taches</button>
-        <div id="taches"></div>
-      </nav>
-      <article>
-        <h2>Editeur de Tâches</h2>
-        <section id="tools">
-          <img id="add" src="img/new.png" alt="Nouvelle chose à faire"/>
-          <div id="addtask">
-            <input type="hidden" id="title_input" name="title" placeholder="Titre tâche"/>
-            <input type="hidden" id="description_input" name="description" placeholder="Description tâche"/>
-            <button style="display:none;" id="buttonNewTask">Ajouter</button>
-          </div>
-          <img id="del" src="img/delete.png" alt="Enlever cette tache"/>
-        </section>
-        <section id="currenttask">
-        </section>
-      </article>
-    </div>
-    <footer>
-      <h4>©Département Informatique ⚛ IUT d'Orléans</h4>
-    </footer>
-  </body>
-  <script src="./main.js"></script>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Vos tâches</title>
+        <link rel="stylesheet" href="./index.css" />
+    </head>
+    <body>
+        <header>
+            <h1>Vos tâches</h1>
+        </header>
+        <div class="div-taches">
+            <div>
+                <h2>À faire</h2>
+                <div id="taches-a-faire"></div>
+            </div>
+            <div>
+                <h2>Réalisées</h2>
+                <div id="taches-realisees"></div>
+            </div>
+        </div>
+        <footer>
+            <h4>©Département Informatique ⚛ IUT d'Orléans</h4>
+        </footer>
+    </body>
+    <script src="./main.js"></script>
 </html>

@@ -18,8 +18,8 @@ def get_tasks():
 @app.route("/todo/api/v1.0/tasks/<int:task_id>", methods = ["GET"])
 def get_task(task_id):
     print(task_id)
-    if len(tasks) > task_id:
-        return jsonify(task = tasks[task_id])
+    if len(tasks) >= task_id and task_id != 0:
+        return jsonify(task = tasks[task_id-1])
     abort(404)
 
 @app.errorhandler(404)

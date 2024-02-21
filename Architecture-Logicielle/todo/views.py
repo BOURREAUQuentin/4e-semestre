@@ -68,4 +68,4 @@ def delete_task(task_id):
     if len(task) == 0:
         abort(404)
     tasks.remove(task[0])
-    return jsonify({'task deleted'})
+    return jsonify({'message': 'Task supprimée correctement'})

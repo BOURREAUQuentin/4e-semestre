@@ -4,7 +4,6 @@ class Task {
         this.description = description;
         this.done = done;
         this.uri = uri;
-        console.log(this.uri);
     }
 
     // Méthode pour créer l'élément HTML représentant la tâche
@@ -24,7 +23,7 @@ class Task {
         divTache.appendChild(pDescription);
 
         const boutonVoir = this.createButton("Voir", () => this.voirTache(pDescription));
-        const boutonModifier = this.createButton("Modifier", this.modifierTache.bind(this));
+        const boutonModifier = this.createButton("Modifier", () => this.toggleEditForm(divTache));
         const boutonSupprimer = this.createButton("Supprimer", this.supprimerTache.bind(this));
         const checkboxRealisee = this.createCheckbox("Réalisée", this.toggleDone.bind(this));
 
@@ -61,7 +60,6 @@ class Task {
                 else throw new Error("Problème ajax: " + response.status);
             })
             .then(data => {
-                console.log("Données de la tâche:", data);
                 // Afficher ou cacher la description en fonction de son état actuel
                 if (pDescription.style.display === "none") {
                     pDescription.style.display = "block";
@@ -75,19 +73,114 @@ class Task {
             });
     }
 
-    // Méthode pour modifier la tâche
-    modifierTache() {
-        console.log("Modifier la tâche:", this);
+    // Méthode pour modifier la tâche dans le serveur
+    modifierTache(newTitle, newDescription) {
+        // Envoyer les nouvelles informations au serveur
+        fetch(this.uri, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: newTitle,
+                description: newDescription,
+                done: this.done
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            else {
+                throw new Error("Problème ajax: " + response.status);
+            }
+        })
+        .then(data => {
+            // Mise à jour de l'affichage après avoir modifié les informations de la tâche
+            majAffichageTaches();
+        })
+        .catch(error => {
+            console.error("Une erreur est survenue lors de la mise à jour de la tâche: ", error);
+        });
+    }
+
+    // Méthode pour créer le formulaire de modification de la tâche
+    createEditForm() {
+        // Créer le formulaire
+        const form = document.createElement("form");
+        form.setAttribute("id", "editForm");
+
+        // Créer les éléments du formulaire
+        const titleLabel = document.createElement("label");
+        titleLabel.textContent = "Titre:";
+        const titleInput = document.createElement("input");
+        titleInput.setAttribute("type", "text");
+        titleInput.setAttribute("name", "title");
+        titleInput.setAttribute("value", this.title);
+        const descriptionLabel = document.createElement("label");
+        descriptionLabel.textContent = "Description:";
+        const descriptionTextarea = document.createElement("textarea");
+        descriptionTextarea.setAttribute("name", "description");
+        descriptionTextarea.textContent = this.description;
+        const submitButton = document.createElement("input");
+        submitButton.setAttribute("type", "submit");
+        submitButton.setAttribute("value", "Modifier");
+
+        // Ajouter les éléments au formulaire
+        form.appendChild(titleLabel);
+        form.appendChild(titleInput);
+        form.appendChild(descriptionLabel);
+        form.appendChild(descriptionTextarea);
+        form.appendChild(submitButton);
+
+        // Ajouter un gestionnaire d'événements pour soumettre le formulaire
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const newTitle = formData.get("title");
+            const newDescription = formData.get("description");
+            this.modifierTache(newTitle, newDescription);
+            form.remove(); // Supprimer le formulaire après la soumission
+        });
+
+        return form;
+    }
+
+    // Méthode pour afficher ou masquer le formulaire de modification de la tâche
+    toggleEditForm(taskElement) {
+        const editForm = taskElement.querySelector("#editForm");
+        if (editForm) {
+            // Si le formulaire est déjà affiché, basculer son style pour le cacher ou le rendre visible
+            editForm.style.display = editForm.style.display === "none" ? "block" : "none";
+        } else {
+            // Sinon, créer et afficher le formulaire dans la div de la tâche
+            const form = this.createEditForm();
+            taskElement.appendChild(form);
+        }
     }
 
     // Méthode pour supprimer la tâche
     supprimerTache() {
         console.log("Supprimer la tâche:", this);
+        fetch(this.uri, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (response.ok) {
+                // Mettre à jour l'affichage après avoir supprimé la tâche
+                majAffichageTaches();
+            }
+            else {
+                throw new Error("Problème ajax: " + response.status);
+            }
+        })
+        .catch(error => {
+            console.error("Une erreur est survenue lors de la suppression de la tâche: ", error);
+        });
     }
 
     // Méthode pour basculer l'état de la tâche (réalisée ou non)
     toggleDone(event) {
-        console.log("Checkbox changée pour la tâche:", this);
         fetch(this.uri, {
             method: 'PUT',
             headers: {
@@ -101,7 +194,6 @@ class Task {
         })
         .then(response => {
             if (response.ok) {
-                console.log("État de la tâche mis à jour avec succès.");
                 return response.json();
             }
             else {
@@ -122,6 +214,7 @@ class Task {
 function afficherTaches(tasks) {
     const divTachesAFaire = document.getElementById('taches-a-faire');
     const divTachesRealisees = document.getElementById("taches-realisees");
+    const divAddTache = document.getElementById("add-tache");
     divTachesAFaire.innerHTML = ''; // Vide le contenu de la div des taches a faire
     divTachesRealisees.innerHTML = ''; // Vide le contenu de la div des taches réalisées
 
@@ -137,6 +230,23 @@ function afficherTaches(tasks) {
             divTachesAFaire.appendChild(taskElement);
         }
     }
+
+    // Ajout d'un gestionnaire d'événements au bouton "Ajouter"
+    const addButtonTache = document.getElementById("addButtonTache");
+    addButtonTache.addEventListener('click', () => toggleAddForm(divAddTache));
+}
+
+// Fonction pour afficher ou masquer le formulaire d'ajout de tâche
+function toggleAddForm(divAddTache) {
+    const form = divAddTache.querySelector('form');
+    if (form) {
+        // Si le formulaire est déjà affiché, le supprimer
+        form.remove();
+    } else {
+        // Sinon créer et afficher le formulaire dans la div "add-tache"
+        const newForm = createAddForm();
+        divAddTache.appendChild(newForm);
+    }
 }
 
 function majAffichageTaches() {
@@ -150,6 +260,78 @@ function majAffichageTaches() {
         .catch(error => {
             console.error("Une erreur est survenue lors de la récupération des tâches: ", error);
         });
+}
+
+// Création du formulaire d'ajout de tâche
+function createAddForm() {
+    const form = document.createElement("form");
+
+    // Titre
+    const titleLabel = document.createElement("label");
+    titleLabel.textContent = "Titre:";
+    const titleInput = document.createElement("input");
+    titleInput.setAttribute("type", "text");
+    titleInput.setAttribute("name", "title");
+    titleLabel.appendChild(titleInput);
+
+    // Description
+    const descriptionLabel = document.createElement("label");
+    descriptionLabel.textContent = "Description:";
+    const descriptionTextarea = document.createElement("textarea");
+    descriptionTextarea.setAttribute("name", "description");
+    descriptionLabel.appendChild(descriptionTextarea);
+
+    // Bouton d'ajout
+    const submitButton = document.createElement("input");
+    submitButton.setAttribute("type", "submit");
+    submitButton.setAttribute("value", "Ajouter");
+
+    // Ajout des éléments au formulaire
+    form.appendChild(titleLabel);
+    form.appendChild(descriptionLabel);
+    form.appendChild(submitButton);
+
+    // Gestionnaire d'événements pour soumettre le formulaire
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const title = formData.get("title");
+        const description = formData.get("description");
+        // Envoi des données au serveur pour créer une nouvelle tâche
+        createNewTask(title, description);
+        // Suppression du formulaire après soumission
+        form.remove();
+    });
+
+    return form;
+}
+
+// Fonction pour créer une nouvelle tâche sur le serveur
+function createNewTask(title, description) {
+    const uri = "http://localhost:5000/todo/api/v1.0/tasks";
+    fetch(uri, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            title: title,
+            description: description
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Nouvelle tâche ajoutée avec succès.");
+            // Mettre à jour l'affichage après avoir ajouté la nouvelle tâche
+            majAffichageTaches();
+        }
+        else {
+            throw new Error("Problème ajax: " + response.status);
+        }
+    })
+    .catch(error => {
+        console.error("Une erreur est survenue lors de l'ajout de la tâche: ", error);
+    });
 }
 
 majAffichageTaches();

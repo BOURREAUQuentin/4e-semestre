@@ -23,8 +23,17 @@ class Task {
         divTache.appendChild(pDescription);
 
         const boutonVoir = this.createButton("Voir", () => this.voirTache(pDescription));
+        const imgVoir = document.createElement("img");
+        imgVoir.src = "./img/voir.png";
+        boutonVoir.appendChild(imgVoir);
         const boutonModifier = this.createButton("Modifier", () => this.toggleEditForm(divTache));
+        const imgModifier = document.createElement("img");
+        imgModifier.src = "./img/modifier.png";
+        boutonModifier.appendChild(imgModifier);
         const boutonSupprimer = this.createButton("Supprimer", this.supprimerTache.bind(this));
+        const imgSupprimer = document.createElement("img");
+        imgSupprimer.src = "./img/supprimer.png";
+        boutonSupprimer.appendChild(imgSupprimer);
         const checkboxRealisee = this.createCheckbox("Réalisée", this.toggleDone.bind(this));
 
         divTache.appendChild(boutonVoir);
@@ -123,6 +132,9 @@ class Task {
         descriptionTextarea.setAttribute("name", "description");
         descriptionTextarea.textContent = this.description;
         const submitButton = document.createElement("input");
+        const imgSauvegarder = document.createElement("img");
+        imgSauvegarder.src = "./img/sauvegarder.png";
+        submitButton.appendChild(imgSauvegarder);
         submitButton.setAttribute("type", "submit");
         submitButton.setAttribute("value", "Modifier");
 
@@ -283,6 +295,9 @@ function createAddForm(divAddTache) {
 
     // Bouton d'ajout
     const submitButton = document.createElement("input");
+    const imgSauvegarder = document.createElement("img");
+    imgSauvegarder.src = "./img/sauvegarder.png";
+    submitButton.appendChild(imgSauvegarder);
     submitButton.setAttribute("type", "submit");
     submitButton.setAttribute("value", "Ajouter");
 

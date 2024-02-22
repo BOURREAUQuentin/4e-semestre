@@ -28,6 +28,11 @@ h5{
     margin-bottom: 50px;
 }
 
+img{
+    max-height: 30px;
+    width: auto;
+}
+
 footer{
     text-align: center;
 }

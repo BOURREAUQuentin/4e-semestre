@@ -1,0 +1,23 @@
+h1, h2{
+    text-align: center;
+}
+
+.div-posts{
+    background-color: rgb(26, 194, 194);
+}
+
+.div-posts > *{
+    margin: 10px;
+}
+
+h4{
+    text-decoration: underline;
+}
+
+h5{
+    margin-bottom: 50px;
+}
+
+footer{
+    text-align: center;
+}

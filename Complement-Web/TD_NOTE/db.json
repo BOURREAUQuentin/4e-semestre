@@ -9,12 +9,27 @@
       "id": "2",
       "title": "another title",
       "views": 200
+    },
+    {
+      "id": "fda2",
+      "title": "",
+      "views": null
+    },
+    {
+      "id": "8eb6",
+      "title": "Test",
+      "views": null
     }
   ],
   "comments": [
     {
       "id": "1",
       "text": "a comment about post 1",
+      "postId": "1"
+    },
+    {
+      "id": "2",
+      "text": "another comment about post 1",
       "postId": "1"
     }
   ],

@@ -5,12 +5,14 @@ import Post from './post.js';
 function createCommentForm(postId) {
     const commentForm = document.createElement("form");
     commentForm.id = "comment-form-" + postId;
+    commentForm.required = true;
     commentForm.style.display = "none";
 
     // Champ de texte pour le commentaire
     const commentInput = document.createElement("input");
     commentInput.type = "text";
     commentInput.placeholder = "Entrez votre commentaire...";
+    commentInput.required = true;
     commentForm.appendChild(commentInput);
 
     // Bouton pour créer le commentaire
@@ -33,6 +35,7 @@ function createEditCommentForm(commentId, currentText) {
     const commentInput = document.createElement("input");
     commentInput.type = "text";
     commentInput.value = currentText;
+    commentInput.required = true;
     editCommentForm.appendChild(commentInput);
 
     // Bouton pour valider la modification du commentaire
@@ -87,7 +90,6 @@ function createComment(postId, text) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            id: 5, // changer par un id automatique
             text: text,
             postId: postId
         })
@@ -102,6 +104,35 @@ function createComment(postId, text) {
         }
     })
     .catch(error => {
+        console.error('Erreur:', error);
+    });
+}
+
+// Fonction pour créer un nouveau post
+function createPost(title, views) {
+    fetch('http://localhost:3000/posts', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            title: title,
+            views: views
+        })
+    })
+    .then(response => {
+        // Vérification de la réponse de la requête
+        if (response.ok) {
+            // Si la réponse est ok, rechargement des posts pour afficher le nouveau post
+            getPosts();
+        }
+        else {
+            // Sinon, affichage d'une erreur
+            throw new Error('Erreur lors de la création du post');
+        }
+    })
+    .catch(error => {
+        // Gestion des erreurs
         console.error('Erreur:', error);
     });
 }
@@ -181,6 +212,39 @@ function toggleCommentForm(postId) {
     }
 }
 
+// Fonction pour créer un nouveau post
+function createPostForm() {
+    const postForm = document.createElement("form");
+    postForm.id = "post-form";
+    postForm.style.display = "none";
+    
+    // Champ de texte pour le titre du post
+    const titleInput = document.createElement("input");
+    titleInput.type = "text";
+    titleInput.placeholder = "Entrez le titre du post...";
+    titleInput.required = true;
+    postForm.appendChild(titleInput);
+
+    // Champ de texte pour le nombre de vues du post
+    const viewsInput = document.createElement("input");
+    viewsInput.type = "number";
+    viewsInput.placeholder = "Entrez le nombre de vues...";
+    viewsInput.required = true;
+    postForm.appendChild(viewsInput);
+
+    // Bouton pour créer le post
+    const createPostButton = document.createElement("button");
+    createPostButton.textContent = "Créer";
+    createPostButton.addEventListener("click", () => {
+        const title = titleInput.value;
+        const views = parseInt(viewsInput.value);
+        createPost(title, views);
+    });
+    postForm.appendChild(createPostButton);
+
+    return postForm;
+}
+
 function getComments(postId, ulComments) {
     fetch('http://localhost:3000/comments')
         .then(response => response.json())
@@ -209,7 +273,26 @@ function getPosts() {
                 const postElement = createPostElement(postActuel);
                 divPosts.appendChild(postElement);
             });
+
+            // ajout de la création du formulaire d'ajout d'un post
+            const divContenu = document.querySelector(".div-posts");
+            divContenu.appendChild(createPostForm());
         });
 }
 
+// Appel de la fonction getPosts au chargement de la page
 getPosts();
+
+// Sélection du bouton "Ajouter un post"
+const addButtonPost = document.getElementById("addButtonPost");
+
+// Ajout d'un écouteur d'événements sur le bouton "Ajouter un post"
+addButtonPost.addEventListener("click", () => {
+    const postForm = document.getElementById("post-form");
+    if (postForm.style.display === "none") {
+        postForm.style.display = "block";
+    }
+    else {
+        postForm.style.display = "none";
+    }
+});

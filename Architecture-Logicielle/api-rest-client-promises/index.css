@@ -57,6 +57,42 @@ footer {
     z-index: 1000; /* Assure que le footer est au-dessus des autres éléments */
 }
 
+/* partie des formulaire */
+form {
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input[type="text"], form textarea {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #47da99;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form input[type="submit"]:hover {
+    background-color: #36b883;
+}
+
 /* partie du style des boutons de Voir, Modifier, Supprimer */
 button {
     width: 180px;

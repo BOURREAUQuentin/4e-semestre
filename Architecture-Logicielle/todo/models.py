@@ -16,5 +16,17 @@ tasks = [
         'title': 'Apprendre Ajax',
         'description': "Revoir les exemples et ecrire un client REST JS avec Ajax",
         'done': False
+    },
+    {
+        'id': 4,
+        'title': 'Concert',
+        'description': 'Aller au concert de Favé',
+        'done': False
+    },
+    {
+        'id': 5,
+        'title': 'Labourer',
+        'description': 'Labourer le champ avec le motoculteur',
+        'done': False
     }
 ]

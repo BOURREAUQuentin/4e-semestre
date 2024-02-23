@@ -12,16 +12,21 @@ class Task {
         const numeroTache = document.createElement("h4");
         numeroTache.textContent = "Tache";
         divTache.appendChild(numeroTache);
-
+    
         const h5Titre = document.createElement("h5");
         h5Titre.textContent = this.title;
         divTache.appendChild(h5Titre);
-
+    
         const pDescription = document.createElement("p");
         pDescription.style.display = "none"; // Masque par défaut
         pDescription.textContent = this.description;
         divTache.appendChild(pDescription);
-
+    
+        // Création du conteneur pour les boutons et la checkbox
+        const buttonsContainer = document.createElement("div");
+        buttonsContainer.className = "buttons-container";
+    
+        // Création des boutons et de la checkbox
         const boutonVoir = this.createButton("Voir", () => this.voirTache(pDescription));
         const imgVoir = document.createElement("img");
         imgVoir.src = "./img/voir.png";
@@ -35,14 +40,22 @@ class Task {
         imgSupprimer.src = "./img/supprimer.png";
         boutonSupprimer.appendChild(imgSupprimer);
         const checkboxRealisee = this.createCheckbox("Réalisée", this.toggleDone.bind(this));
+    
+        // Ajout des boutons et de la checkbox au conteneur
+        buttonsContainer.appendChild(boutonVoir);
+        buttonsContainer.appendChild(boutonModifier);
+        buttonsContainer.appendChild(boutonSupprimer);
+        buttonsContainer.appendChild(checkboxRealisee);
+    
+        // Ajout du conteneur au div de la tâche
+        divTache.appendChild(buttonsContainer);
 
-        divTache.appendChild(boutonVoir);
-        divTache.appendChild(boutonModifier);
-        divTache.appendChild(boutonSupprimer);
-        divTache.appendChild(checkboxRealisee);
-
+        // Ajout d'une bordure inférieure
+        divTache.style.paddingBottom = "20px";
+        divTache.style.borderBottom = "1px solid black";
+    
         return divTache;
-    }
+    }    
 
     // Méthode pour créer un bouton avec un texte et un gestionnaire d'événements
     createButton(text, onClickHandler) {
@@ -54,11 +67,25 @@ class Task {
 
     // Méthode pour créer une checkbox avec un label et un gestionnaire d'événements
     createCheckbox(label, onChangeHandler) {
+        // Créer l'élément label
+        const labelElement = document.createElement("label");
+        labelElement.className = "container";
+        
+        // Créer l'élément input (checkbox)
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.checked = this.done;
         checkbox.addEventListener("change", onChangeHandler);
-        return checkbox;
+        
+        // Créer l'élément div pour le style personnalisé
+        const checkmark = document.createElement("div");
+        checkmark.className = "checkmark";
+        
+        // Ajouter l'élément input et l'élément div au label
+        labelElement.appendChild(checkbox);
+        labelElement.appendChild(checkmark);
+        
+        return labelElement;
     }
 
     // Méthode pour voir la tache

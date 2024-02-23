@@ -179,7 +179,6 @@ button:active {
     transform: rotate(45deg);
 }
 
-/* partie des boutons Voir, Modifier, Supprimer et CheckBox */
 .buttons-container > * {
     margin-right: 10px;
 }

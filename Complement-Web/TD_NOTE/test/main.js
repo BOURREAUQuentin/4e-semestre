@@ -17,6 +17,9 @@ function createCommentForm(postId) {
 
     // Bouton pour créer le commentaire
     const createCommentButton = document.createElement("button");
+    const imgSauvegarder = document.createElement("img");
+    imgSauvegarder.src = "./img/sauvegarder.png";
+    createCommentButton.appendChild(imgSauvegarder);
     createCommentButton.textContent = "Créer";
     createCommentButton.addEventListener("click", () => {
         createComment(postId, commentInput.value);
@@ -40,6 +43,9 @@ function createEditCommentForm(commentId, currentText) {
 
     // Bouton pour valider la modification du commentaire
     const saveButton = document.createElement("button");
+    const imgSauvegarder = document.createElement("img");
+    imgSauvegarder.src = "./img/sauvegarder.png";
+    saveButton.appendChild(imgSauvegarder);
     saveButton.textContent = "Enregistrer";
     saveButton.addEventListener("click", () => {
         updateComment(commentId, commentInput.value);
@@ -53,23 +59,34 @@ function createCommentElement(comment) {
     const liComment = document.createElement("li");
     liComment.textContent = comment.toString();
 
+    // Création du conteneur pour les boutons et la checkbox
+    const buttonsContainer = document.createElement("div");
+    buttonsContainer.className = "buttons-container";
+
     // Bouton Modifier
-    const editButton = document.createElement("button");
-    editButton.textContent = "Modifier";
-    editButton.addEventListener("click", () => {
+    const boutonModifier = document.createElement("button");
+    const imgModifier = document.createElement("img");
+    imgModifier.src = "./img/modifier.png";
+    boutonModifier.appendChild(imgModifier);
+    boutonModifier.textContent = "Modifier";
+    boutonModifier.addEventListener("click", () => {
         toggleEditCommentForm(comment.getId());
     });
-    liComment.appendChild(editButton);
+    buttonsContainer.appendChild(boutonModifier);
 
     // Bouton Supprimer
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Supprimer";
-    deleteButton.addEventListener("click", () => {
+    const boutonSupprimer = document.createElement("button");
+    const imgSupprimer = document.createElement("img");
+    imgSupprimer.src = "./img/supprimer.png";
+    boutonSupprimer.appendChild(imgSupprimer);
+    boutonSupprimer.textContent = "Supprimer";
+    boutonSupprimer.addEventListener("click", () => {
         deleteComment(comment.getId());
         // Supprimer le commentaire de l'interface utilisateur
         liComment.remove();
     });
-    liComment.appendChild(deleteButton);
+    buttonsContainer.appendChild(boutonSupprimer);
+    liComment.appendChild(buttonsContainer);
 
     return liComment;
 }
@@ -200,6 +217,10 @@ function createPostElement(post) {
     // Ajoute un formulaire de création de commentaire
     ulPost.appendChild(createCommentForm(post.getId()));
 
+    // Ajout d'une bordure inférieure
+    ulPost.style.paddingBottom = "20px";
+    ulPost.style.borderBottom = "1px solid black";
+
     return ulPost;
 }
 
@@ -234,6 +255,9 @@ function createPostForm() {
 
     // Bouton pour créer le post
     const createPostButton = document.createElement("button");
+    const imgSauvegarder = document.createElement("img");
+    imgSauvegarder.src = "./img/sauvegarder.png";
+    createPostButton.appendChild(imgSauvegarder);
     createPostButton.textContent = "Créer";
     createPostButton.addEventListener("click", () => {
         const title = titleInput.value;

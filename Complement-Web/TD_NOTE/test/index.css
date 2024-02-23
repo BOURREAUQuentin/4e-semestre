@@ -1,9 +1,15 @@
+body {
+    margin-top: 120px;
+    margin-bottom: 120px;
+}
+
 h1, h2{
     text-align: center;
 }
 
 .div-posts{
-    background-color: rgb(26, 194, 194);
+    background-color: #a59bfe;
+    padding-bottom: 10px;
 }
 
 .div-posts > *{
@@ -14,10 +20,157 @@ h4{
     text-decoration: underline;
 }
 
-h5{
-    margin-bottom: 50px;
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333; /* Fond gris foncé */
+    color: #fff; /* Texte blanc */
+    padding: 10px; /* Ajoute un espace intérieur */
+    z-index: 1000; /* Assure que le header est au-dessus des autres éléments */
 }
 
-footer{
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
     text-align: center;
+    width: 100%;
+    background-color: #333; /* Fond gris foncé */
+    color: #fff; /* Texte blanc */
+    padding: 10px; /* Ajoute un espace intérieur */
+    z-index: 1000; /* Assure que le footer est au-dessus des autres éléments */
+}
+
+/* partie des formulaire */
+form {
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input[type="text"], form textarea {
+    width: 98%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #47da99;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form input[type="submit"]:hover {
+    background-color: #36b883;
+}
+
+/* partie du style des boutons de Voir, Modifier, Supprimer */
+button {
+    width: 180px;
+    height: 40px;
+    background-image: linear-gradient(rgb(214, 202, 254), rgb(158, 129, 254));
+    border: none;
+    border-radius: 50px;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    box-shadow: 1px 3px 0px rgb(139, 113, 255);
+    transition-duration: .3s;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+  
+.cartIcon {
+    width: 14px;
+    height: fit-content;
+}
+  
+.cartIcon path {
+    fill: white;
+}
+  
+button:active {
+    transform: translate(2px ,0px);
+    box-shadow: 0px 1px 0px rgb(139, 113, 255);
+    padding-bottom: 1px;
+}
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+   }
+   
+.container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 20px;
+    user-select: none;
+}
+   
+.checkmark {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 1.3em;
+    width: 1.3em;
+    background-color: #ccc;
+    transition: all 0.3s;
+    border-radius: 5px;
+}
+   
+.container input:checked ~ .checkmark {
+    background-color: #47da99;
+    animation: pop 0.5s;
+    animation-direction: alternate;
+}
+   
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+   
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+   
+.container .checkmark:after {
+    left: 0.45em;
+    top: 0.25em;
+    width: 0.25em;
+    height: 0.5em;
+    border: solid white;
+    border-width: 0 0.15em 0.15em 0;
+    transform: rotate(45deg);
+}
+
+.buttons-container > * {
+    margin-right: 10px;
+}
+
+.buttons-container {
+    display: flex;
+    align-items: center;
 }

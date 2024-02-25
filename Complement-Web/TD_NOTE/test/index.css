@@ -20,6 +20,11 @@ h4{
     text-decoration: underline;
 }
 
+img{
+    max-height: 30px;
+    width: auto;
+}
+
 header {
     position: fixed;
     top: 0;
@@ -79,10 +84,9 @@ form input[type="submit"]:hover {
 }
 
 /* partie du style des boutons de Voir, Modifier, Supprimer */
-button {
+button, .supprimer-post {
     width: 180px;
     height: 40px;
-    background-image: linear-gradient(rgb(214, 202, 254), rgb(158, 129, 254));
     border: none;
     border-radius: 50px;
     color: rgb(255, 255, 255);
@@ -92,10 +96,19 @@ button {
     justify-content: center;
     gap: 5px;
     cursor: pointer;
-    box-shadow: 1px 3px 0px rgb(139, 113, 255);
     transition-duration: .3s;
     margin-top: 5px;
     margin-bottom: 20px;
+}
+
+button{
+    background-image: linear-gradient(rgb(214, 202, 254), rgb(158, 129, 254));
+    box-shadow: 1px 3px 0px rgb(139, 113, 255);
+}
+
+.supprimer-post{
+    background-image: linear-gradient(rgb(52, 167, 67), rgb(89, 165, 2));
+    box-shadow: 1px 3px 0px rgb(43, 192, 23);
 }
   
 .cartIcon {

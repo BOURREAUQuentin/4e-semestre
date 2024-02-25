@@ -22,6 +22,6 @@ export default class Comment{
     }
 
     toString() {
-        return "Post d'id " + this.id + " intitulé "+ this.text +" avec un nombre de vues de " + this.postId;
+        return "Commentaire d'id " + this.id + " : "+ this.text;
     }
 }

@@ -22,6 +22,6 @@ export default class Post{
     }
 
     toString() {
-        return "Post d'id " + this.id + " intitulé "+ this.title +" avec un nombre de vues de " + this.views;
+        return "Post d'id "+ this.id + "(" + this.views + " vues): "+ this.title;
     }
 }

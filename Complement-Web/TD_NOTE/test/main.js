@@ -16,12 +16,7 @@ function createCommentForm(postId) {
     commentForm.appendChild(commentInput);
 
     // Bouton pour créer le commentaire
-    const createCommentButton = document.createElement("button");
-    const imgSauvegarder = document.createElement("img");
-    imgSauvegarder.src = "./img/sauvegarder.png";
-    createCommentButton.appendChild(imgSauvegarder);
-    createCommentButton.textContent = "Créer";
-    createCommentButton.addEventListener("click", () => {
+    const createCommentButton = createButton("Créer", "./img/sauvegarder.png", () => {
         createComment(postId, commentInput.value);
     });
     commentForm.appendChild(createCommentButton);
@@ -42,12 +37,7 @@ function createEditCommentForm(commentId, currentText) {
     editCommentForm.appendChild(commentInput);
 
     // Bouton pour valider la modification du commentaire
-    const saveButton = document.createElement("button");
-    const imgSauvegarder = document.createElement("img");
-    imgSauvegarder.src = "./img/sauvegarder.png";
-    saveButton.appendChild(imgSauvegarder);
-    saveButton.textContent = "Enregistrer";
-    saveButton.addEventListener("click", () => {
+    const saveButton = createButton("Enregistrer", "./img/sauvegarder.png", () => {
         updateComment(commentId, commentInput.value);
     });
     editCommentForm.appendChild(saveButton);
@@ -64,23 +54,13 @@ function createCommentElement(comment) {
     buttonsContainer.className = "buttons-container";
 
     // Bouton Modifier
-    const boutonModifier = document.createElement("button");
-    const imgModifier = document.createElement("img");
-    imgModifier.src = "./img/modifier.png";
-    boutonModifier.appendChild(imgModifier);
-    boutonModifier.textContent = "Modifier";
-    boutonModifier.addEventListener("click", () => {
+    const boutonModifier = createButton("Modifier", "./img/modifier.png", () => {
         toggleEditCommentForm(comment.getId());
     });
     buttonsContainer.appendChild(boutonModifier);
 
     // Bouton Supprimer
-    const boutonSupprimer = document.createElement("button");
-    const imgSupprimer = document.createElement("img");
-    imgSupprimer.src = "./img/supprimer.png";
-    boutonSupprimer.appendChild(imgSupprimer);
-    boutonSupprimer.textContent = "Supprimer";
-    boutonSupprimer.addEventListener("click", () => {
+    const boutonSupprimer = createButton("Supprimer", "./img/supprimer.png", () => {
         deleteComment(comment.getId());
         // Supprimer le commentaire de l'interface utilisateur
         liComment.remove();
@@ -95,9 +75,30 @@ function toggleEditCommentForm(commentId) {
     const editCommentForm = document.getElementById("edit-comment-form-" + commentId);
     if (editCommentForm.style.display === "none") {
         editCommentForm.style.display = "block";
-    } else {
+    }
+    else {
         editCommentForm.style.display = "none";
     }
+}
+
+// Méthode pour créer un bouton avec un texte, une image et un gestionnaire d'événements
+function createButton(text, imgSrc, onClickHandler) {
+    const bouton = document.createElement("button");
+
+    // Création de l'image
+    const imgElement = document.createElement("img");
+    imgElement.src = imgSrc;
+
+    // Ajout du texte au bouton
+    bouton.textContent = text;
+
+    // Ajout de l'image au bouton
+    bouton.appendChild(imgElement);
+
+    // Ajout du gestionnaire d'événements au bouton
+    bouton.addEventListener("click", onClickHandler);
+
+    return bouton;
 }
 
 function createComment(postId, text) {
@@ -192,10 +193,40 @@ function deleteComment(commentId) {
     });
 }
 
+function deletePost(postId) {
+    fetch('http://localhost:3000/posts/' + postId, {
+        method: 'DELETE',
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur lors de la suppression du post');
+        }
+    })
+    .then(() => {
+        // Supprimer le post de l'interface utilisateur
+        const postElement = document.getElementById("post-" + postId);
+        if (postElement) {
+            postElement.remove();
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+    });
+}
+
 function createPostElement(post) {
     const ulPost = document.createElement("ul");
     const liPost = document.createElement("li");
     liPost.textContent = post.toString();
+
+    // Bouton Supprimer
+    const deleteButton = createButton("Supprimer", "./img/supprimer.png", () => {
+        deletePost(post.getId());
+        // Supprimer le post de l'interface utilisateur
+        ulPost.remove();
+    });
+    deleteButton.classList = "supprimer-post";
+    ulPost.appendChild(deleteButton);
 
     // Créez une sous-liste pour les commentaires de ce post
     const ulComments = document.createElement("ul");
@@ -207,9 +238,7 @@ function createPostElement(post) {
     ulPost.appendChild(ulComments);
 
     // Ajoute un bouton "Ajouter un commentaire" à la fin des commentaires
-    const addCommentButton = document.createElement("button");
-    addCommentButton.textContent = "Ajouter un commentaire";
-    addCommentButton.addEventListener("click", () => {
+    const addCommentButton = createButton("Ajouter un commentaire", "./img/nouveau.png", () => {
         toggleCommentForm(post.getId());
     });
     ulPost.appendChild(addCommentButton);
@@ -228,7 +257,8 @@ function toggleCommentForm(postId) {
     const commentForm = document.getElementById("comment-form-" + postId);
     if (commentForm.style.display === "none") {
         commentForm.style.display = "block";
-    } else {
+    }
+    else {
         commentForm.style.display = "none";
     }
 }
@@ -254,12 +284,7 @@ function createPostForm() {
     postForm.appendChild(viewsInput);
 
     // Bouton pour créer le post
-    const createPostButton = document.createElement("button");
-    const imgSauvegarder = document.createElement("img");
-    imgSauvegarder.src = "./img/sauvegarder.png";
-    createPostButton.appendChild(imgSauvegarder);
-    createPostButton.textContent = "Créer";
-    createPostButton.addEventListener("click", () => {
+    const createPostButton = createButton("Créer", "./img/sauvegarder.png", () => {
         const title = titleInput.value;
         const views = parseInt(viewsInput.value);
         createPost(title, views);

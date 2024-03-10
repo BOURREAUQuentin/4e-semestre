@@ -4,11 +4,11 @@
 
 Pour lancer mon projet, vous devez respecter ces commandes dans l'ordre suivant.
 1. Déplacer à la racine du projet
-2. Lancer le serveur avec la commande suivante :
+2. Lancer le serveur avec la commande suivante dans un terminal :
 ```bash
 flask run
 ```
-3. Lancer le client avec la commande suivante :
+3. Lancer le client avec la commande suivante dans un autre terminal :
 ```bash
 php -S localhost:8000
 ```

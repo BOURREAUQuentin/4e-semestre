@@ -1,3 +1,4 @@
+// la classe Task (représente une Tache avec ses attributs et ses méthodes)
 class Task {
     constructor(title, description, done, uri) {
         this.title = title;
@@ -39,7 +40,7 @@ class Task {
         const imgSupprimer = document.createElement("img");
         imgSupprimer.src = "./img/supprimer.png";
         boutonSupprimer.appendChild(imgSupprimer);
-        const checkboxRealisee = this.createCheckbox("Réalisée", this.toggleDone.bind(this));
+        const checkboxRealisee = this.createCheckbox(this.toggleDone.bind(this));
     
         // Ajout des boutons et de la checkbox au conteneur
         buttonsContainer.appendChild(boutonVoir);
@@ -65,8 +66,8 @@ class Task {
         return bouton;
     }
 
-    // Méthode pour créer une checkbox avec un label et un gestionnaire d'événements
-    createCheckbox(label, onChangeHandler) {
+    // Méthode pour créer une checkbox avec un gestionnaire d'événements
+    createCheckbox(onChangeHandler) {
         // Créer l'élément label
         const labelElement = document.createElement("label");
         labelElement.className = "container";
@@ -288,6 +289,7 @@ function toggleAddForm(divAddTache) {
     }
 }
 
+// Fonction pour mettre à jour l'affichage des taches
 function majAffichageTaches() {
     const requete = "http://localhost:5000/todo/api/v1.0/tasks";
     fetch(requete)
@@ -303,7 +305,7 @@ function majAffichageTaches() {
 
 // Création du formulaire d'ajout de tâche
 function createAddForm(divAddTache) {
-    const form = document.createElement("form");
+    const form = document.createElement("form");nt
 
     // Titre
     const titleLabel = document.createElement("label");

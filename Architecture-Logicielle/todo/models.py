@@ -9,7 +9,7 @@ tasks = [
         'id': 2,
         'title': 'Apprendre REST',
         'description': 'Apprendre mon cours et comprendre les exemples',
-        'done': False
+        'done': True
     },
     {
         'id': 3,

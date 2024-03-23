@@ -7,7 +7,8 @@ export default{
     data() {
         return {
             editModalVisible: false,
-            newText: ''
+            newTitle: this.todo.title,
+            newDescription: this.todo.description
         };
     },
     methods: {
@@ -17,22 +18,25 @@ export default{
         showEditModal: function(){
             this.editModalVisible = ! this.editModalVisible;
         },
-        editTodo: function(newText){
-            this.todo.text = newText;
+        editTodo: function(newTitle, newDescription){
+            this.todo.title = newTitle;
+            this.todo.description = newDescription;
+            this.$emit("edit", this.todo);
             this.editModalVisible = false;
-            this.newText = "";
-            // est-ce que faut faire un emit pour modifier au parent (serveur) ???
-            //this.$emit("edit", {id:this.todo.id, newText: newText});
+        },
+        toggleDone: function(){
+            this.$emit("edit", this.todo);
         }
     },
-    emits : ["remove", "add"]
+    emits : ["remove", "add", "edit"]
 }
 </script>
 <template>
-    <div class="checkbox">
+    <div>
         <label>
-            <input type="checkbox" checked="checked" v-model="todo.checked">
-            {{ todo.text}}
+            <h1>{{ todo.title}}</h1>
+            <p>{{ todo.description }}</p>
+            <input type="checkbox" checked="checked" v-model="todo.checked" @change="toggleDone">
         </label>
 
         <input type="button"
@@ -51,8 +55,11 @@ export default{
 
         <div v-if="editModalVisible">
             <input type="button" class="btn" value="Annuler" @click="showEditModal">
-            <form @submit.prevent="editTodo(newText)">
-                <input type="text" v-model="newText" required>
+            <form @submit.prevent="editTodo(newTitle, newDescription)">
+                <label>New title</label>
+                <input type="text" v-model="newTitle">
+                <label>New description</label>
+                <input type="text" v-model="newDescription">
                 <input type="submit" value="Enregistrer">
             </form>
         </div>
